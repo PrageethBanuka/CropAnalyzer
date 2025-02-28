@@ -1,0 +1,43 @@
+class BubbleSort
+{
+    static void bubbleSort(int[] Array, int n)
+    { int temp;
+        bool swapped;   // to check if we need another iteration
+        for (int i = 0; i < n; i++)      //governs the iterations
+        { swapped = false;
+            for (int j = 0; j < n - i - 1; j++)
+            {
+                if (Array[j] > Array[j + 1])
+                {
+                    temp = Array[j];
+                    Array[j] = Array[j + 1];
+                    Array[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+
+            if (swapped == false)  //it is already sorted so no need 
+            { break; }
+        }
+    }
+
+    static void PrintArray(int[] Array, int size)
+    { for (int i=0; i<size;i++)
+        { Console.Write("{0} ", Array[i]); }  //{0} is a string formatter
+            //Consol.Write(Array[i]);
+
+        Console.WriteLine();
+
+    }
+
+    //public static void Main(string[] args)
+    {int[] Array =  { 2, 64, 78, 32, -7, 5, 10 };
+     int n = Array.Length;
+        bubbleSort(Array, n);
+        Console.WriteLine("Sorted array: ");
+        PrintArray(Array, n);
+
+
+
+    }
+}
