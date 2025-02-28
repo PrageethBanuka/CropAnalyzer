@@ -1,1 +1,85 @@
 
+class MergeSort
+{
+    static void Merge(int[] Array, int left, int mid, int right)
+    // First subarray Array[left,...,m] // second subarray Array[mid+1,...,right]
+    { 
+        // finding size of 2 subarrays
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+        //create temp arrays
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+        int i, j;
+        // copying data to temp arrays
+        for (i = 0; i < n1; ++i)
+            L[i] = Array[left + i];
+        for (j = 0; j < n2; ++j)
+            R[j] = Array[mid + 1 + j];
+
+
+        i = 0; j = 0;
+        int k = left;
+        // for (k = 0; k < 10; ++k)
+        //{
+        while (i < n1 && j < n2)
+        {
+            if (L[i] <= R[j])
+            {
+                Array[k] = L[i];
+                ++i;
+
+            }
+            else
+            {
+                Array[k] = R[j];
+                ++j;
+            }
+            ++k;
+
+        }
+        //copy remaining element
+        while (i < n1)
+        { Array[k] = L[i]; ++i; ++k; }
+        while (j < n2)
+        {
+            Array[k] = R[j];
+            ++j; ++k;
+        }
+    }
+
+    static void mergeSort(int[] Array, int left, int right)
+    {
+        if (left >= right) return;
+        //find middle point
+        int middle = left + (right - left) / 2;
+        //sort 1st and 2nd halves
+        mergeSort(Array, left, middle);
+        mergeSort(Array, middle + 1, right);
+
+
+        // Merge the sorted halves
+        Merge(Array, left, middle, right);
+
+    }
+
+   /* static void PrintArray(int[] Array)
+    {
+        int n = Array.Length;
+        for (int i = 0; i < n; ++i)
+        { Console.Write(Array[i] + " "); }
+        Console.WriteLine();
+    }
+    static void Main(string[] args)
+    {
+        int[] Array = { 12, 11, 13, 5, 6, 7 };
+        Console.WriteLine("Original array; ");
+        PrintArray(Array);
+        mergeSort(Array, 0, Array.Length - 1);
+        Console.WriteLine("\n Sorted array:");
+        PrintArray(Array);
+
+
+    }
+*/
+}
