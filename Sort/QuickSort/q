@@ -1,0 +1,56 @@
+class QuickSort
+
+{
+    static int Partrition(int[] subarray, int low, int high)
+    {   
+        int pivot = subarray[high];   
+        int i = low - 1;     
+
+        for (int j = low; j < high; j++)
+        {
+            if (subarray[j] < pivot)
+            {
+                i++;     
+                Swap(subarray, i, j); // int temp = array[i]; array[i] = array[j]; array[j] = temp;
+
+            }
+
+        }
+        //moving the pivot to correct place that is after the smaller elements
+        Swap(subarray, i + 1, high);
+        return i + 1;// temp = array[i+1]; array[i+1] = pivot; pivot = temp; 
+
+
+    }
+    static void Swap(int[] array, int i, int j) //important add static
+    {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    static void quickSort(int[] array, int low, int high)
+    {
+        if (low < high)
+        {
+            int pivot = Partrition(array, low, high);
+
+           
+            quickSort(array, low, high: pivot - 1);    
+            quickSort(array, low: pivot + 1, high);     
+        }
+    }
+
+    static void Main(string[] args)
+    {
+        int[] Array = { 10, 7, 8, 9, 1, 5 };
+        int n = Array.Length;
+        quickSort(Array, 0, n - 1);
+        foreach (int i in Array)
+        {
+            Console.Write(i + " ");
+
+        }
+    }
+}
+
