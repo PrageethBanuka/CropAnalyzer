@@ -1,0 +1,11 @@
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\bin\Debug\net8.0\DSALibrary.deps.json
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\bin\Debug\net8.0\DSALibrary.dll
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\bin\Debug\net8.0\DSALibrary.pdb
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\obj\Debug\net8.0\DSALibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\obj\Debug\net8.0\DSALibrary.AssemblyInfoInputs.cache
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\obj\Debug\net8.0\DSALibrary.AssemblyInfo.cs
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\obj\Debug\net8.0\DSALibrary.csproj.CoreCompileInputs.cache
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\obj\Debug\net8.0\DSALibrary.dll
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\obj\Debug\net8.0\refint\DSALibrary.dll
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\obj\Debug\net8.0\DSALibrary.pdb
+C:\Sem 3\DSA\Project\ClassLibrary\ClassLibrary\obj\Debug\net8.0\ref\DSALibrary.dll
