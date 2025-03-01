@@ -5,17 +5,17 @@ namespace DSALibrary
 
         public void BFS(MyLinkedList<int>[] graph, int startNode)
         {
-        // Custom queue implementation
-        int[] queue = new int[graph.Length];
-        int front = 0, rear = 0;
+            // Custom queue implementation
+            int[] queue = new int[graph.Length];
+            int front = 0, rear = 0;
 
-        // Visited array to track visited nodes
-        bool[] visited = new bool[graph.Length];
+            // Visited array to track visited nodes
+            bool[] visited = new bool[graph.Length];
 
-        // Enqueue the start node
-        queue[rear] = startNode;
-        rear++;
-        visited[startNode] = true;
+            // Enqueue the start node
+            queue[rear] = startNode;
+            rear++;
+            visited[startNode] = true;
 
             while (front < rear)
             {
@@ -40,7 +40,7 @@ namespace DSALibrary
                     neighbor = neighbor.Next; // move to the next node
                 }
             }
-            
+
         }
         public void DFS(MyLinkedList<int>[] graph, int startNode)
         {
@@ -69,7 +69,7 @@ namespace DSALibrary
 
                     // Push all unvisited neighbors onto the stack
                     Node<int> neighbor = graph[current].GetHead(); // Get the head of adjacency list
-                    while(neighbor != null)//traverse through linked list
+                    while (neighbor != null)//traverse through linked list
                     {
                         if (!visited[neighbor.Data])
                         {
@@ -78,7 +78,7 @@ namespace DSALibrary
                         }
                         neighbor = neighbor.Next;
                     }
-                    
+
                 }
             }
         }
@@ -87,14 +87,236 @@ namespace DSALibrary
 
     public class SortingAlgorithms
     {
+        // Bubble Sort
+        public static void bubbleSort(int[] array)
+        {
+            int n = array.Length;
+            int temp;
+            bool swapped;   // To check if we need another iteration
+
+            for (int i = 0; i < n - 1; i++)      // Go through all elements
+            {
+                swapped = false;
+                for (int j = 0; j < n - i - 1; j++) // Inner loop
+                {
+                    if (array[j] > array[j + 1]) // Compare adjacent elements
+                    {
+                        temp = array[j];
+                        array[j] = array[j + 1];
+                        array[j + 1] = temp;
+                        swapped = true;
+                    }
+                }
+
+                if (!swapped) break;  // If no elements were swapped, array is already sorted
+            }
+        }
+
+        // Quick Sort
+        public static void QuickSort(int[] array, int low, int high)
+        {
+            if (low < high)
+            {
+                int pivot = Partition(array, low, high);
+                QuickSort(array, low, pivot - 1);  // Before pivot
+                QuickSort(array, pivot + 1, high); // After pivot
+            }
+        }
+
+        private static int Partition(int[] array, int low, int high)
+        {
+            int pivot = array[high];
+            int i = low - 1;
+
+            for (int j = low; j < high; j++)
+            {
+                if (array[j] < pivot)
+                {
+                    i++;
+                    Swap(array, i, j);
+                }
+            }
+
+            Swap(array, i + 1, high);
+            return i + 1;
+        }
+
+        private static void Swap(int[] array, int i, int j)
+        {
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+
+        // Merge Sort
+        public static void MergeSort(int[] array, int left, int right)
+        {
+            if (left < right)
+            {
+                int middle = left + (right - left) / 2;
+                MergeSort(array, left, middle);
+                MergeSort(array, middle + 1, right);
+                Merge(array, left, middle, right);
+            }
+        }
+
+        private static void Merge(int[] array, int left, int mid, int right)
+        {
+            int n1 = mid - left + 1;
+            int n2 = right - mid;
+
+            int[] L = new int[n1];
+            int[] R = new int[n2];
+
+            // Copy data into temp arrays
+            for (int i1 = 0; i1 < n1; i1++)
+                L[i1] = array[left + i1];
+            for (int i2 = 0; i2 < n2; i2++)
+                R[i2] = array[mid + 1 + i2];
+
+            int i = 0, j = 0, k = left;
+
+            // Merge the temp arrays back into the original array
+            while (i < n1 && j < n2)
+            {
+                if (L[i] <= R[j])
+                {
+                    array[k] = L[i];
+                    i++;
+                }
+                else
+                {
+                    array[k] = R[j];
+                    j++;
+                }
+                k++;
+            }
+
+            // Copy the remaining elements of L[] and R[]
+            while (i < n1)
+            {
+                array[k] = L[i];
+                i++;
+                k++;
+            }
+
+            while (j < n2)
+            {
+                array[k] = R[j];
+                j++;
+                k++;
+            }
+        }
+
+        // Print Array (Helper Method)
+        public static void PrintArray(int[] array)
+        {
+            foreach (var item in array)
+            {
+                Console.Write(item + " ");
+            }
+            Console.WriteLine();
+        }
 
     }
 
     public class SearchingAlgorithms
     {
 
+
+    }
+public class BST<T> where T : IComparable<T>
+{
+    private BSTNode<T> root;
+
+    public void Insert(T data)
+    {
+        root = InsertRecursive(root, data);
     }
 
+    private BSTNode<T> InsertRecursive(BSTNode<T> node, T data)
+    {
+        if (node == null)
+        {
+            return new BSTNode<T>(data);
+        }
+
+        if (data.CompareTo(node.Data) < 0)
+        {
+            node.Left = InsertRecursive(node.Left, data);
+        }
+        else if (data.CompareTo(node.Data) > 0)
+        {
+            node.Right = InsertRecursive(node.Right, data);
+        }
+        else
+        {
+            // 👇 If Duplicate Farmer Name Found
+            // Console.WriteLine($"[yellow]Duplicate Farmer Found 🔄 Updating Data...[/]");
+            
+            // FarmerHarvest Update Logic
+            if (typeof(T) == typeof(FarmerHarvest))
+            {
+                FarmerHarvest existingHarvest = node.Data as FarmerHarvest;
+                FarmerHarvest newHarvest = data as FarmerHarvest;
+
+                if (existingHarvest != null && newHarvest != null)
+                {
+                    // Add Quantity
+                    existingHarvest.Quantitykg += newHarvest.Quantitykg;
+
+                    // Update Date if New Date is Latest
+                    if (newHarvest.Date > existingHarvest.Date)
+                    {
+                        existingHarvest.Date = newHarvest.Date;
+                    }
+                }
+            }
+        }
+
+        return node;
+    }
+
+    public void InOrderTraversal()
+    {
+        if (root == null)
+        {
+            Console.WriteLine("[yellow]BST is Empty ❌[/]");
+            return;
+        }
+
+        Console.WriteLine("[green]In-Order Traversal 🔥:[/]");
+        InOrderRecursive(root);
+        Console.WriteLine();
+    }
+
+    private void InOrderRecursive(BSTNode<T> node)
+    {
+        if (node != null)
+        {
+            InOrderRecursive(node.Left);
+            Console.WriteLine(node.Data);
+            InOrderRecursive(node.Right);
+        }
+    }
+
+    public BSTNode<T> GetRoot()
+    {
+        return root;
+    }
+}
+    public class BSTNode<T>
+    {
+        public T Data { get; set; }
+        public BSTNode<T> Left { get; set; }
+        public BSTNode<T> Right { get; set; }
+
+        public BSTNode(T data)
+        {
+            Data = data;
+            Left = Right = null;
+        }
+    }
     public class MyLinkedList<T> //  type parameter T
     {
         private Node<T> head;

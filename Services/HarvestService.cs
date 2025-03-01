@@ -125,42 +125,42 @@ public class HarvestService : BaseService<Harvest>
 
 
     // Analysing Methods Implementations
-    public MyLinkedList<FarmerHarvest> GetHarvestsByFarmers()
-    {
-        MyLinkedList<FarmerHarvest> farmerHarvests = new MyLinkedList<FarmerHarvest>();
+public BST<FarmerHarvest> GetHarvestsByFarmers()
+{
+    BST<FarmerHarvest> farmerHarvests = new BST<FarmerHarvest>();
 
-        using var connection = GetConnection();
-        connection.Open();
-        var command = connection.CreateCommand();
-        command.CommandText = @"
-        SELECT f.FarmerID, f.Name, r.RegionName, h.HarvestID, c.CropName, h.Date, h.Quantitykg, h.QualityRating
-        FROM Farmers f
-        JOIN Regions r ON f.RegionID = r.RegionID
-        JOIN Harvests h ON f.FarmerID = h.FarmerID
-        JOIN Crops c ON h.CropID = c.CropID
-        ORDER BY f.FarmerID, h.Date;
+    using var connection = GetConnection();
+    connection.Open();
+    var command = connection.CreateCommand();
+    command.CommandText = @"
+    SELECT f.FarmerID, f.Name, r.RegionName, h.HarvestID, c.CropName, h.Date, h.Quantitykg, h.QualityRating
+    FROM Farmers f
+    JOIN Regions r ON f.RegionID = r.RegionID
+    JOIN Harvests h ON f.FarmerID = h.FarmerID
+    JOIN Crops c ON h.CropID = c.CropID
+    ORDER BY f.FarmerID, h.Date;
     ";
 
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
+    using var reader = command.ExecuteReader();
+    while (reader.Read())
+    {
+        var farmerHarvest = new FarmerHarvest
         {
-            var farmerHarvest = new FarmerHarvest
-            {
-                FarmerID = reader.GetInt32(0),
-                Name = reader.GetString(1),
-                RegionName = reader.GetString(2),
-                HarvestID = reader.GetInt32(3),
-                CropName = reader.GetString(4),
-                Date = reader.GetDateTime(5),
-                Quantitykg = reader.GetDouble(6),
-                QualityRating = reader.GetString(7)
-            };
+            FarmerID = reader.GetInt32(0),
+            Name = reader.GetString(1),
+            RegionName = reader.GetString(2),
+            HarvestID = reader.GetInt32(3),
+            CropName = reader.GetString(4),
+            Date = reader.GetDateTime(5),
+            Quantitykg = reader.GetDouble(6),
+            QualityRating = reader.GetString(7)
+        };
 
-            farmerHarvests.Add(farmerHarvest);
-        }
-
-        return farmerHarvests;
+        farmerHarvests.Insert(farmerHarvest);
     }
+
+    return farmerHarvests;
+}
     public MyLinkedList<CropHarvest> GetHarvestsByCrops()
     {
         MyLinkedList<CropHarvest> cropHarvests = new MyLinkedList<CropHarvest>();

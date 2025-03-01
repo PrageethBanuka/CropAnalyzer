@@ -42,7 +42,6 @@ public static class AnalyseView
         Console.Clear();
         AnsiConsole.Write(new Rule("Harvests by Farmers").RuleStyle("grey").LeftJustified());
 
-        // Instantiate HarvestService and fetch data
         var harvestService = new HarvestService();
         var farmerHarvests = harvestService.GetHarvestsByFarmers();
 
@@ -50,22 +49,33 @@ public static class AnalyseView
             .Border(TableBorder.Rounded)
             .BorderColor(Color.Grey)
             .AddColumn("Farmer Name")
-            .AddColumn("Total Harvests (kg)");
+            .AddColumn("Total Harvests (kg)")
+            .AddColumn("Latest Harvest Date");
 
-        var node = farmerHarvests.GetHead();
-        while (node != null)
+        if (farmerHarvests.GetRoot() == null)
         {
-            var farmer = node.Data;
-            table.AddRow(farmer.Name, farmer.Quantitykg.ToString()); // Assuming `TotalHarvest` is the `Quantitykg` field
-            node = node.Next;
+            AnsiConsole.MarkupLine("[red]No Harvests Found ❌[/]");
+        }
+        else
+        {
+            InOrderDisplay(farmerHarvests.GetRoot(), table);
         }
 
         AnsiConsole.Write(table);
 
-        // Allow user to navigate back
-        AnsiConsole.MarkupLine("[yellow]Press any key to go back to the analysis options.[/]");
+        AnsiConsole.MarkupLine("[yellow]Press any key to go back to Analysis Options.[/]");
         Console.ReadKey();
-        Show();  // Return to analysis view
+        Show();
+    }
+
+    private static void InOrderDisplay(BSTNode<FarmerHarvest> node, Table table)
+    {
+        if (node != null)
+        {
+            InOrderDisplay(node.Left, table);
+            table.AddRow(node.Data.Name, node.Data.Quantitykg.ToString(), node.Data.Date.ToShortDateString());
+            InOrderDisplay(node.Right, table);
+        }
     }
 
     // Display harvest analysis by crops

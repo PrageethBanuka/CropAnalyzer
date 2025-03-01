@@ -30,12 +30,7 @@ public static class FarmerDashboard
                     //FarmerAlertView.Show(farmerId);  // Pass the farmerId to view alerts (assuming it's implemented)
                     break;
                 case "Exit":
-                    Console.Clear();
-                    AnsiConsole.MarkupLine("[bold green]🧑🏼‍🌾 Goodbye, Farmer.[/]");
-                    AnsiConsole.Write(
-                        new FigletText("Goodbye!")
-                            .Centered()
-                            .Color(Color.Red));
+                    MainMenu.Show(); // Exit
                     return;
             }
         }
