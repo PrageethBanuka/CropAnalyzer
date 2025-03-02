@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CropHarvestAnalyzer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1564633885874a3afdcb8c8947431129c0358fa2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e24f207da784e25c562a1624bf62cc3eeded7c5e")]
 [assembly: System.Reflection.AssemblyProductAttribute("CropHarvestAnalyzer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CropHarvestAnalyzer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -4,6 +4,7 @@ public class FarmerService : BaseService<Farmer>
     public override void Add(Farmer farmer)
     {
         using var connection = GetConnection();
+        connection.Open();
         var command = connection.CreateCommand();
         command.CommandText = "INSERT INTO Farmers (Name, RegionID, ContactNumber, Password) VALUES (@Name, @RegionID, @ContactNumber, @Password)";
         command.Parameters.AddWithValue("@Name", farmer.Name);
