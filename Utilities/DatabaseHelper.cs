@@ -19,4 +19,18 @@ public static class DatabaseHelper
         command.CommandText = schema;
         command.ExecuteNonQuery();
     }
+    public static void ResetDatabase()
+{
+    Console.WriteLine("[yellow]🔄 Resetting Database...[/]");
+    
+    string dbPath = "Data/CropAnalyzer.db";
+    if (File.Exists(dbPath))
+    {
+        File.Delete(dbPath);
+        Console.WriteLine("[red]🗑️ Database Deleted![/]");
+    }
+
+    InitializeDatabase(); // Recreate fresh DB
+    Console.WriteLine("[green]🎯 DB Setup Complete![/]");
+}
 }

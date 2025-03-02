@@ -88,10 +88,11 @@ namespace DSALibrary
     public class SortingAlgorithms
     {
         // Bubble Sort
-        public static void bubbleSort(int[] array)
+        // Bubble Sort for double[]
+        public static void bubbleSort(double[] array)
         {
             int n = array.Length;
-            int temp;
+            double temp;
             bool swapped;   // To check if we need another iteration
 
             for (int i = 0; i < n - 1; i++)      // Go through all elements
@@ -113,7 +114,8 @@ namespace DSALibrary
         }
 
         // Quick Sort
-        public static void QuickSort(int[] array, int low, int high)
+        // Quick Sort for double[]
+        public static void QuickSort(double[] array, int low, int high)
         {
             if (low < high)
             {
@@ -123,9 +125,9 @@ namespace DSALibrary
             }
         }
 
-        private static int Partition(int[] array, int low, int high)
+        private static int Partition(double[] array, int low, int high)
         {
-            int pivot = array[high];
+            double pivot = array[high];
             int i = low - 1;
 
             for (int j = low; j < high; j++)
@@ -141,15 +143,16 @@ namespace DSALibrary
             return i + 1;
         }
 
-        private static void Swap(int[] array, int i, int j)
+        private static void Swap(double[] array, int i, int j)
         {
-            int temp = array[i];
+            double temp = array[i];
             array[i] = array[j];
             array[j] = temp;
         }
 
         // Merge Sort
-        public static void MergeSort(int[] array, int left, int right)
+        // Merge Sort for double[]
+        public static void MergeSort(double[] array, int left, int right)
         {
             if (left < right)
             {
@@ -160,13 +163,13 @@ namespace DSALibrary
             }
         }
 
-        private static void Merge(int[] array, int left, int mid, int right)
+        private static void Merge(double[] array, int left, int mid, int right)
         {
             int n1 = mid - left + 1;
             int n2 = right - mid;
 
-            int[] L = new int[n1];
-            int[] R = new int[n2];
+            double[] L = new double[n1];
+            double[] R = new double[n2];
 
             // Copy data into temp arrays
             for (int i1 = 0; i1 < n1; i1++)
@@ -207,17 +210,6 @@ namespace DSALibrary
                 k++;
             }
         }
-
-        // Print Array (Helper Method)
-        public static void PrintArray(int[] array)
-        {
-            foreach (var item in array)
-            {
-                Console.Write(item + " ");
-            }
-            Console.WriteLine();
-        }
-
     }
 
     public class SearchingAlgorithms
@@ -225,86 +217,135 @@ namespace DSALibrary
 
 
     }
-public class BST<T> where T : IComparable<T>
-{
-    private BSTNode<T> root;
-
-    public void Insert(T data)
+    public class BST<T> where T : IComparable<T>
     {
-        root = InsertRecursive(root, data);
-    }
+        private BSTNode<T> root;
 
-    private BSTNode<T> InsertRecursive(BSTNode<T> node, T data)
-    {
-        if (node == null)
+        public void Insert(T data)
         {
-            return new BSTNode<T>(data);
+            root = InsertRecursive(root, data);
         }
 
-        if (data.CompareTo(node.Data) < 0)
+        private BSTNode<T> InsertRecursive(BSTNode<T> node, T data)
         {
-            node.Left = InsertRecursive(node.Left, data);
-        }
-        else if (data.CompareTo(node.Data) > 0)
-        {
-            node.Right = InsertRecursive(node.Right, data);
-        }
-        else
-        {
-            // 👇 If Duplicate Farmer Name Found
-            // Console.WriteLine($"[yellow]Duplicate Farmer Found 🔄 Updating Data...[/]");
-            
-            // FarmerHarvest Update Logic
-            if (typeof(T) == typeof(FarmerHarvest))
+            if (node == null)
             {
-                FarmerHarvest existingHarvest = node.Data as FarmerHarvest;
-                FarmerHarvest newHarvest = data as FarmerHarvest;
+                return new BSTNode<T>(data);
+            }
 
-                if (existingHarvest != null && newHarvest != null)
+            if (data.CompareTo(node.Data) < 0)
+            {
+                node.Left = InsertRecursive(node.Left, data);
+            }
+            else if (data.CompareTo(node.Data) > 0)
+            {
+                node.Right = InsertRecursive(node.Right, data);
+            }
+            else
+            {
+                // 👇 If Duplicate Farmer Name Found
+                // Console.WriteLine($"[yellow]Duplicate Farmer Found 🔄 Updating Data...[/]");
+
+                // FarmerHarvest Update Logic
+                if (typeof(T) == typeof(FarmerHarvest))
                 {
-                    // Add Quantity
-                    existingHarvest.Quantitykg += newHarvest.Quantitykg;
+                    FarmerHarvest existingHarvest = node.Data as FarmerHarvest;
+                    FarmerHarvest newHarvest = data as FarmerHarvest;
 
-                    // Update Date if New Date is Latest
-                    if (newHarvest.Date > existingHarvest.Date)
+                    if (existingHarvest != null && newHarvest != null)
                     {
-                        existingHarvest.Date = newHarvest.Date;
+                        // Add Quantity
+                        existingHarvest.Quantitykg += newHarvest.Quantitykg;
+
+                        // Update Date if New Date is Latest
+                        if (newHarvest.Date > existingHarvest.Date)
+                        {
+                            existingHarvest.Date = newHarvest.Date;
+                        }
+                    }
+
+                }
+                else if (typeof(T) == typeof(CropHarvest))
+                {
+                    CropHarvest existing = node.Data as CropHarvest;
+                    CropHarvest incoming = data as CropHarvest;
+
+                    if (existing != null && incoming != null)
+                    {
+                        existing.Quantitykg += incoming.Quantitykg;
+
+                        if (incoming.Date > existing.Date)
+                        {
+                            existing.Date = incoming.Date;
+                        }
+                    }
+                }
+                else if (typeof(T) == typeof(RegionHarvest))
+                {
+                    RegionHarvest existing = node.Data as RegionHarvest;
+                    RegionHarvest incoming = data as RegionHarvest;
+
+                    if (existing != null && incoming != null)
+                    {
+                        existing.Quantitykg += incoming.Quantitykg;
+
+                        if (incoming.Date > existing.Date)
+                        {
+                            existing.Date = incoming.Date;
+                        }
                     }
                 }
             }
+
+            return node;
         }
-
-        return node;
-    }
-
-    public void InOrderTraversal()
-    {
-        if (root == null)
+        // In-order traversal method to collect elements into a list
+        public List<T> ToList()
         {
-            Console.WriteLine("[yellow]BST is Empty ❌[/]");
-            return;
+            List<T> list = new List<T>();
+            InOrderTraversal(root, list);
+            return list;
         }
-
-        Console.WriteLine("[green]In-Order Traversal 🔥:[/]");
-        InOrderRecursive(root);
-        Console.WriteLine();
-    }
-
-    private void InOrderRecursive(BSTNode<T> node)
-    {
-        if (node != null)
+        private void InOrderTraversal(BSTNode<T> node, List<T> list)
         {
-            InOrderRecursive(node.Left);
-            Console.WriteLine(node.Data);
-            InOrderRecursive(node.Right);
+            if (node != null)
+            {
+                InOrderTraversal(node.Left, list);
+                list.Add(node.Data);  // Add the node's data to the list
+                InOrderTraversal(node.Right, list);
+            }
         }
+
+        public void InOrderTraversal()
+        {
+            if (root == null)
+            {
+                Console.WriteLine("[yellow]BST is Empty ❌[/]");
+                return;
+            }
+
+            Console.WriteLine("[green]In-Order Traversal 🔥:[/]");
+            InOrderRecursive(root);
+            Console.WriteLine();
+        }
+
+        private void InOrderRecursive(BSTNode<T> node)
+        {
+            if (node != null)
+            {
+                InOrderRecursive(node.Left);
+                Console.WriteLine(node.Data);
+                InOrderRecursive(node.Right);
+            }
+        }
+
+        public BSTNode<T> GetRoot()
+        {
+            return root;
+        }
+
     }
 
-    public BSTNode<T> GetRoot()
-    {
-        return root;
-    }
-}
     public class BSTNode<T>
     {
         public T Data { get; set; }
