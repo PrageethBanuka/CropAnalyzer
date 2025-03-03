@@ -1,6 +1,8 @@
 using System;
 using Spectre.Console;
-using DSALibrary;  // Ensure this namespace is included for HarvestService and related classes
+using DSALibrary;
+using Microsoft.Identity.Client;
+using System.Diagnostics;  // Ensure this namespace is included for HarvestService and related classes
 
 public static class AnalyseView
 {
@@ -35,6 +37,21 @@ public static class AnalyseView
                 break;
         }
     }
+    public static double SortingTime(Action sortAction)
+    {
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+
+        // Run the sorting action
+        sortAction();
+
+        stopwatch.Stop();
+
+        // Convert the elapsed time from ticks to microseconds
+        double timeInMicroseconds = stopwatch.ElapsedTicks / (Stopwatch.Frequency / 1000000.0);  // Convert to microseconds
+
+        return timeInMicroseconds;
+    }
 
     // Display harvest analysis by farmers
     private static void AnalyseByFarmers()
@@ -47,7 +64,11 @@ public static class AnalyseView
 
         // QuickSort by Quantity
         var quantityArray = farmerHarvests.Select(h => h.Quantitykg).ToArray();
-        SortingAlgorithms.QuickSort(quantityArray, 0, quantityArray.Length - 1);
+        //double sortingTime = SortingTime(() =>SortingAlgorithms.QuickSort(quantityArray, 0, quantityArray.Length - 1));
+        double sortingTime = SortingTime(() => SortingAlgorithms.bubbleSort(quantityArray));
+        // double sortingTime = SortingTime(() => SortingAlgorithms.MergeSort(quantityArray, 0, quantityArray.Length - 1));
+        AnsiConsole.MarkupLine($"[yellow]Sorting Time :[/] {sortingTime} µs");
+
 
         // Create a table for displaying sorted results
         var table = new Table()
@@ -56,8 +77,8 @@ public static class AnalyseView
             .AddColumn("Farmer Name")
             .AddColumn("Total Harvests (kg)")
             .AddColumn("Latest Harvest Date");
-        
-        
+
+
 
         foreach (var harvest in farmerHarvests.OrderByDescending(h => h.Quantitykg))
         {
@@ -100,7 +121,13 @@ public static class AnalyseView
 
         // QuickSort by Quantity
         var quantityArray = cropHarvests.Select(h => h.Quantitykg).ToArray();
-        SortingAlgorithms.QuickSort(quantityArray, 0, quantityArray.Length - 1);
+        double sortingTime = SortingTime(() =>SortingAlgorithms.QuickSort(quantityArray, 0, quantityArray.Length - 1));
+        // double sortingTime = SortingTime(() => SortingAlgorithms.bubbleSort(quantityArray));
+        // double sortingTime = SortingTime(() => SortingAlgorithms.MergeSort(quantityArray, 0, quantityArray.Length - 1));
+        AnsiConsole.MarkupLine($"[yellow]Sorting Time :[/] {sortingTime} µs");
+
+
+
 
         // Create a table for displaying sorted results
         var table = new Table()
@@ -150,7 +177,11 @@ public static class AnalyseView
 
         // QuickSort by Quantity
         var quantityArray = regionHarvests.Select(h => h.Quantitykg).ToArray();
-        SortingAlgorithms.QuickSort(quantityArray, 0, quantityArray.Length - 1);
+        double sortingTime = SortingTime(() =>SortingAlgorithms.QuickSort(quantityArray, 0, quantityArray.Length - 1));
+        // double sortingTime = SortingTime(() => SortingAlgorithms.bubbleSort(quantityArray));
+        // double sortingTime = SortingTime(() => SortingAlgorithms.MergeSort(quantityArray, 0, quantityArray.Length - 1));
+        AnsiConsole.MarkupLine($"[yellow]Sorting Time :[/] {sortingTime} µs");
+
 
         // Create a table for displaying sorted results
         var table = new Table()
