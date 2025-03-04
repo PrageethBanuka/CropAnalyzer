@@ -4,7 +4,6 @@ using Spectre.Console;
 
 public static class AdminLogin
 {
-    // Use the helper class for database connection
     public static bool Login()
     {
         Console.Clear();
@@ -13,61 +12,65 @@ public static class AdminLogin
                 .Centered()
                 .Color(Color.Green));
 
-        // Get username and password from user input
-        string username = AnsiConsole.Prompt(new TextPrompt<string>("[bold cyan]Enter Admin Username:[/]"));
-        string password = AnsiConsole.Prompt(new TextPrompt<string>("[bold cyan]Enter Admin Password:[/]").Secret());
+        AnsiConsole.MarkupLine("[bold yellow]Welcome back Admin! 🔐[/]\n");
 
-        // Validate credentials from the database
+        string username = AnsiConsole.Prompt(
+            new TextPrompt<string>("[bold cyan]👤 Enter Admin Username:[/]")
+            .PromptStyle("green")
+            .ValidationErrorMessage("[bold red]Username cannot be empty![/]")
+            .Validate(x => !string.IsNullOrWhiteSpace(x)));
+
+        string password = AnsiConsole.Prompt(
+            new TextPrompt<string>("[bold cyan]🔑 Enter Admin Password:[/]")
+            .Secret()
+            .PromptStyle("green")
+            .ValidationErrorMessage("[bold red]Password cannot be empty![/]")
+            .Validate(x => !string.IsNullOrWhiteSpace(x)));
+
+        // Fake loading effect 🔄
+        AnsiConsole.Status()
+            .Start("Verifying Admin Credentials...", ctx =>
+            {
+                Thread.Sleep(1500); // Wait effect
+            });
+
         if (ValidateAdminCredentials(username, password))
         {
-            AnsiConsole.MarkupLine("[bold green]Admin login successful![/]");
+            AnsiConsole.MarkupLine("[bold green]✅ Login Successful! Welcome Admin.[/]");
+            Thread.Sleep(1000);
             return true;
         }
         else
         {
-            AnsiConsole.MarkupLine("[bold red]Invalid credentials. Try again![/]");
+            AnsiConsole.MarkupLine("[bold red]❌ Invalid credentials. Please Try Again![/]");
+            AnsiConsole.Write(new Rule("[bold yellow]⚠️ Attempt Failed[/]").Centered());
+            Thread.Sleep(1000);
             return false;
         }
     }
 
-    // Method to validate admin credentials from the database
     private static bool ValidateAdminCredentials(string username, string password)
     {
-        // Get a connection to the database
         using (var connection = DatabaseHelper.GetConnection())
         {
             try
             {
                 connection.Open();
-
-                // Prepare the SQL query to check if the username and password match
                 string query = "SELECT COUNT(*) FROM Admins WHERE Username = @Username AND Password = @Password";
 
-                // Execute the query
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = query;
-
-                    // Bind the parameters to the query
                     cmd.Parameters.AddWithValue("@Username", username);
                     cmd.Parameters.AddWithValue("@Password", password);
 
-                    // Execute the query and get the result
-                    long count = (long)cmd.ExecuteScalar();  // This will return the number of matching rows
-
-                    if (count > 0)
-                    {
-                        return true;  // Admin found with matching credentials
-                    }
-                    else
-                    {
-                        return false;  // No matching credentials found
-                    }
+                    long count = (long)cmd.ExecuteScalar();
+                    return count > 0;
                 }
             }
             catch (Exception ex)
             {
-                AnsiConsole.MarkupLine("[bold red]Error: {0}[/]", ex.Message);
+                AnsiConsole.MarkupLine("[bold red]🚨 Error: {0}[/]", ex.Message);
                 return false;
             }
         }

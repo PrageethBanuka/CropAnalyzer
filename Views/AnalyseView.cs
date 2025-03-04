@@ -62,11 +62,11 @@ public static class AnalyseView
         var harvestService = new HarvestService();
         var farmerHarvests = harvestService.GetHarvestsByFarmers().ToList();
 
-        // QuickSort by Quantity
+        // 👑 QuickSort by Quantity
         var quantityArray = farmerHarvests.Select(h => h.Quantitykg).ToArray();
         //double sortingTime = SortingTime(() =>SortingAlgorithms.QuickSort(quantityArray, 0, quantityArray.Length - 1));
-        double sortingTime = SortingTime(() => SortingAlgorithms.bubbleSort(quantityArray));
-        // double sortingTime = SortingTime(() => SortingAlgorithms.MergeSort(quantityArray, 0, quantityArray.Length - 1));
+        //double sortingTime = SortingTime(() => SortingAlgorithms.bubbleSort(quantityArray));
+        double sortingTime = SortingTime(() => SortingAlgorithms.MergeSort(quantityArray, 0, quantityArray.Length - 1));
         AnsiConsole.MarkupLine($"[yellow]Sorting Time :[/] {sortingTime} µs");
 
 
@@ -119,7 +119,7 @@ public static class AnalyseView
         var harvestService = new HarvestService();
         var cropHarvests = harvestService.GetHarvestsByCrops().ToList();
 
-        // QuickSort by Quantity
+        // 👑 QuickSort by Quantity
         var quantityArray = cropHarvests.Select(h => h.Quantitykg).ToArray();
         double sortingTime = SortingTime(() =>SortingAlgorithms.QuickSort(quantityArray, 0, quantityArray.Length - 1));
         // double sortingTime = SortingTime(() => SortingAlgorithms.bubbleSort(quantityArray));
@@ -175,7 +175,7 @@ public static class AnalyseView
         var harvestService = new HarvestService();
         var regionHarvests = harvestService.GetHarvestsByRegions().ToList();
 
-        // QuickSort by Quantity
+        // 👑 QuickSort by Quantity
         var quantityArray = regionHarvests.Select(h => h.Quantitykg).ToArray();
         double sortingTime = SortingTime(() =>SortingAlgorithms.QuickSort(quantityArray, 0, quantityArray.Length - 1));
         // double sortingTime = SortingTime(() => SortingAlgorithms.bubbleSort(quantityArray));
