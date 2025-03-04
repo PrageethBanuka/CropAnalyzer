@@ -16,7 +16,7 @@ public static class FarmerDashboard
             var choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("[bold cyan]Select an option:[/]")
-                    .AddChoices("View My Harvests", "View My Crops", "View Alerts", "Exit"));
+                    .AddChoices("View My Harvests", "View My Crops", "Exit"));
 
             switch (choice)
             {
@@ -25,9 +25,6 @@ public static class FarmerDashboard
                     break;
                 case "View My Crops":
                     FarmerCropView.Show(farmerId);  // Pass the farmerId to view crops (assuming it's implemented)
-                    break;
-                case "View Alerts":
-                    //FarmerAlertView.Show(farmerId);  // Pass the farmerId to view alerts (assuming it's implemented)
                     break;
                 case "Exit":
                     MainMenu.Show(); // Exit
